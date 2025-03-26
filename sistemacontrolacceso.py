@@ -1,22 +1,41 @@
-#Entrada de datos
-#Acceso
-nivel_acceso = int(input("Ingrese su nivel de acceso (0-5): "))
-tarjeta_activa = input("¿tarjeta activa? True/False: ").lower() == "True"
-cambio_contraseña = input("¿Cambiaste la contraseña den los ultimos 30 dias? True/False: ").lower() == "True"
+# Nivel de acceso requerido por defecto
+nivel_acceso_requerido = 5
 
-#If/Elif/Else
+# Entrada de datos
+nivel_acceso_usuario = int(input("Ingrese su nivel de acceso (0-5): "))
 
-if nivel_acceso == 0:
-    print ("Acceso denegado, no cumple el nivel minimo requerido")
-elif nivel_acceso >0 and nivel_acceso >=5:
-    if tarjeta_activa:
-        if cambio_contraseña:
-            print("Acceso concedido")
-        else:
-            print("Acceso denegado, no ha cambiado su contraseña en los ultimos 30 dias")
+# Validación para el estado de la tarjeta
+while True:
+    respuesta_tarjeta = input("¿La tarjeta está activa? (si/no): ")
+    if respuesta_tarjeta == "si":
+        tarjeta_activa = True
+        break
+    elif respuesta_tarjeta == "no":
+        tarjeta_activa = False
+        break
     else:
-        print("Acceso denegado, su tarjeta actualmente esta inactiva")
+        print("Por favor, ingrese una respuesta válida (si/no).")
+
+# Validación para el cambio de contraseña
+while True:
+    respuesta_contraseña = input("¿La contraseña fue cambiada en los últimos 30 días? (si/no): ")
+    if respuesta_contraseña == "si":
+        contraseña_cambiada_recientemente = True
+        break
+    elif respuesta_contraseña == "no":
+        contraseña_cambiada_recientemente = False
+        break
+    else:
+        print("Por favor, ingrese una respuesta válida (si/no).")
+
+# Verificar condiciones de acceso
+if nivel_acceso_usuario >= nivel_acceso_requerido:
+    if tarjeta_activa:
+        if contraseña_cambiada_recientemente:
+            print("Acceso permitido.")
+        else:
+            print("Acceso denegado: La contraseña no se ha cambiado recientemente.")
+    else:
+        print("Acceso denegado: La tarjeta no está activa.")
 else:
-    print("Acceso denegado, nivel se acceso insuficiente")
-
-
+    print("Acceso denegado: Nivel de acceso insuficiente.")
